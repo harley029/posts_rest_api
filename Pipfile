@@ -1,0 +1,45 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+pydantic-core = "*"
+pydantic-settings = "*"
+asyncpg = "*"
+greenlet = "*"
+redis = "*"
+alembic = "*"
+pydantic = {extras = ["email"], version = "*"}
+jinja2 = "*"
+pyjwt = "*"
+fastapi-mail = "*"
+python-multipart = "*"
+bcrypt = "*"
+cryptography = "*"
+fastapi-jwt-auth = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
+google-cloud-language = "*"
+requests = "*"
+aiohttp = "*"
+celery = {extras = ["redis"], version = "*"}
+google-generativeai = "*"
+openai = "==0.28"
+sphinx = "*"
+pytest = "*"
+pytest-mock = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+fakeredis = "*"
+aiosqlite = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: fastapi-posts-app
+    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_URL=${db_url}
+      - SECRET_KEY=${secret_key_jwt}
+      - ALGORITHM=${algorithm}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+      - MAIL_USERNAME=${mail_username}
+      - MAIL_PASSWORD=${mail_password}
+      - MAIL_FROM=${mail_from}
+      - MAIL_PORT=${mail_port}
+      - MAIL_SERVER=${mail_server}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - celery
+
+  db:
+    image: postgres:13
+    container_name: fastapi-posts-db
+    environment:
+      POSTGRES_USER: ${pg_user}
+      POSTGRES_PASSWORD: ${pg_password}
+      POSTGRES_DB: ${pg_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+    container_name: fastapi-posts-redis
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: .
+    container_name: fastapi-posts-celery
+    command: celery -A src.celery.worker:celery_app worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
