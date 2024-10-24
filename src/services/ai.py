@@ -25,7 +25,7 @@ async def generate_reply(post_content: str, comment_content: str) -> str:
 
     try:
         model = genai.GenerativeModel("gemini-1.5-flash")
-        response = await model.generate_content(prompt)
+        response = model.generate_content(prompt)
         return response.text
     except Exception as e:
         print(f"Error generating reply: {e}")
