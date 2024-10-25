@@ -5,7 +5,7 @@ from pydantic import EmailStr
 
 from src.services.auth import auth_serviсe
 
-from src.config.config import conf
+from src.conf.config import conf
 
 
 async def send_email(email: EmailStr, username: str, host: str):
@@ -36,7 +36,7 @@ async def send_email(email: EmailStr, username: str, host: str):
         fm = FastMail(conf)
         await fm.send_message(message, template_name="email_verification.html")
     except ConnectionErrors as err:
-        print(err.args[0])
+        print(err)
 
 
 async def send_password_reset_email(email: EmailStr, username: str, host: str):
@@ -69,4 +69,4 @@ async def send_password_reset_email(email: EmailStr, username: str, host: str):
         fm = FastMail(conf)
         await fm.send_message(message, template_name="password_reset_mail.html")
     except ConnectionErrors as err:
-        print(err.args[0])
+        print(err)
