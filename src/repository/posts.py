@@ -222,3 +222,9 @@ async def update_post_status(
     await db.commit()
     await db.refresh(post)
     return post
+
+
+def get_post_sync(post_id: int, db_session):
+    stmt = select(Post).where(Post.id == post_id)
+    result = db_session.execute(stmt)
+    return result.scalar_one_or_none()
