@@ -9,7 +9,7 @@ from src.repository.comments import get_comment_sync
 from src.repository.posts import get_post_sync
 
 
-DB_URL = f"postgresql+psycopg2://{settings.pg_user}:{settings.pg_password}@{settings.pg_domain}:{settings.pg_port}/{settings.pg_db}"
+DB_URL = settings.db_url_sync
 engine = create_engine(DB_URL)
 Session = sessionmaker(bind=engine)
 
