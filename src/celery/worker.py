@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker
 
 from src.config.config import settings
 from src.entity.models import Comment, Post
-from src.services.ai import generate_reply
 from src.celery.celery_app import celery_app
 from src.repository.comments import get_comment
 from src.repository.posts import get_post
