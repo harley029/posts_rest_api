@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     pg_port: int
     pg_domain: str
     db_url: str
+    db_url_sync: str
     secret_key_jwt: str
     algorithm: str
     mail_username: str
