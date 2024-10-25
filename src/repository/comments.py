@@ -138,6 +138,7 @@ async def delete_comment(
         await db.commit()
     return comment
 
+
 def get_comment_sync(comment_id: int, db_session):
     stmt = select(Comment).where(Comment.id == comment_id)
     result = db_session.execute(stmt)
