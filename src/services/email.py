@@ -26,6 +26,7 @@ async def send_email(email: EmailStr, username: str, host: str):
         message = MessageSchema(
             subject="Confirm your email ",
             recipients=[email],
+            sender=conf.MAIL_FROM,
             template_body={
                 "host": host,
                 "username": username,
