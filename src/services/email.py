@@ -5,7 +5,7 @@ from pydantic import EmailStr
 
 from src.services.auth import auth_serviсe
 
-from src.conf.config import conf
+from src.config.config import conf
 
 
 async def send_email(email: EmailStr, username: str, host: str):
