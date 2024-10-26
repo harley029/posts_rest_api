@@ -24,4 +24,3 @@ async def get_current_user(user: User = Depends(auth_serviсe.get_current_user))
     This endpoint is protected by a rate limiter that allows no more than 2 requests per 10 seconds.
     """
     return user
-
