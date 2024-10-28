@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database.db import get_db
 from src.schemas.comment import CommentModel, CommentResponseSchema, CommentUpdateSchema
 from src.entity.models import Post, Comment, User
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 from src.repository import comments as repository_comments
 from src.services.profanity_checker import contains_profanity
 from src.celery.worker import send_automatic_reply
@@ -43,7 +43,7 @@ async def get_comments(
 async def create_comment(
     body: CommentModel,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Create a new comment for a specific post.
@@ -96,7 +96,7 @@ async def get_censored_comments(
     limit: int = Query(default=10, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
         Get all censored comments from the database.
@@ -142,7 +142,7 @@ async def update_comment(
     comment_id: int,
     body: CommentUpdateSchema,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Update an existing comment by its ID.
@@ -178,7 +178,7 @@ async def update_comment(
 async def delete_comment(
     comment_id: int,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Delete a specific comment by its ID.
