@@ -45,7 +45,7 @@ async def get_censored_posts(
     limit: int = Query(default=10, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Retrieve a list of posts where censored = True.
@@ -90,7 +90,7 @@ async def get_post(
 async def create_post(
     body: PostSchema,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Create a new post.
@@ -121,7 +121,7 @@ async def update_post(
     body: PostUpdateSchema,
     post_id: int,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Update an existing post.
@@ -161,7 +161,7 @@ async def update_post(
 async def delete_post(
     post_id: int,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Delete a post by its ID.
@@ -236,7 +236,7 @@ async def update_post_status(
     post_id: int,
     new_status: StatusPostEnum,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Update the status of a specific post.
