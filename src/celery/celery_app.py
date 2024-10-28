@@ -10,4 +10,4 @@ celery_app = Celery(
     include=["src.celery.worker"],
 )
 
-celery_app.conf.task_routes = {"src.celery.worker.*": {"queue": "default"}}
+celery_app.conf.task_routes = {"src.celery.worker": {"queue": "default"}}
