@@ -10,7 +10,7 @@ from src.schemas.post import PostResponseSchema, PostSchema, PostUpdateSchema, S
 from src.schemas.comment import CommentResponseSchema
 from src.repository import posts as repository_posts
 from src.entity.models import User
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 from src.services.profanity_checker import contains_profanity
 
 
