@@ -60,7 +60,7 @@ conf = ConnectionConfig(
 
 # ключ для моделі модерації постів та коментарів
 API_KEY = settings.api_key
-PERSPECTIVE_API_URL = settings.respective_api_url
+RESPECTIVE_API_URL = settings.respective_api_url
 
 # ключ для моделі відповіді на коментарі
 GOOGLE_REPLY_API_KEY = settings.google_reply_api_key

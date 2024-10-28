@@ -26,7 +26,7 @@ from src.entity.models import User
 from src.database.db import get_db, get_redis_client
 from src.repository import users as repositories_users
 from src.schemas.user import RequestEmail, UserSchema, TokenSchema, UserResponseSchema
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 from src.config.config import conf
 
 
@@ -67,7 +67,7 @@ async def signup(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Account already exists"
         )
-    body.password = auth_serviсe.get_password_hash(body.password)
+    body.password = auth_service.get_password_hash(body.password)
     new_user = await repositories_users.create_user(body, db)
     bt.add_task(send_email, new_user.email, new_user.username, str(request.base_url))
     return new_user
@@ -99,13 +99,13 @@ async def login(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )  # Not confirmed
-    if not auth_serviсe.verify_password(body.password, user.password):
+    if not auth_service.verify_password(body.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
         )  # Invalid password
     # Generate JWT
-    access_token = await auth_serviсe.create_access_token(data={"sub": user.email})
-    refresh_token = await auth_serviсe.create_refresh_token(data={"sub": user.email})
+    access_token = await auth_service.create_access_token(data={"sub": user.email})
+    refresh_token = await auth_service.create_refresh_token(data={"sub": user.email})
     await repositories_users.update_token(user, refresh_token, db)
     return {
         "access_token": access_token,
@@ -133,7 +133,7 @@ async def refresh_token(
     - HTTPException: If the refresh token is invalid or expired.
     """
     token = credentials.credentials
-    email = await auth_serviсe.decode_refresh_token(token)
+    email = await auth_service.decode_refresh_token(token)
     user = await repositories_users.get_user_by_email(email, db)
     if user.refresh_token != token:
         await repositories_users.update_token(user=user, refresh_token=None, db=db)
@@ -141,8 +141,8 @@ async def refresh_token(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
         )
 
-    access_token = await auth_serviсe.create_access_token(data={"sub": email})
-    refresh_token = await auth_serviсe.create_refresh_token(data={"sub": email})
+    access_token = await auth_service.create_access_token(data={"sub": email})
+    refresh_token = await auth_service.create_refresh_token(data={"sub": email})
     await repositories_users.update_token(user, refresh_token, db)
     return {
         "access_token": access_token,
@@ -166,7 +166,7 @@ async def confirmed_email(token: str, db: AsyncSession = Depends(get_db)):
     Raises:
     - HTTPException: If the token is invalid or expired.
     """
-    email = await auth_serviсe.get_email_from_token(token)
+    email = await auth_service.get_email_from_token(token)
     user = await repositories_users.get_user_by_email(email, db)
     if user is None:
         raise HTTPException(
@@ -260,7 +260,7 @@ async def confirmed_reset_password_email(
     Raises:
     - HTTPException: If the token is invalid or expired.
     """
-    email = await auth_serviсe.get_email_from_token(token)
+    email = await auth_service.get_email_from_token(token)
     user = await repositories_users.get_user_by_email(email, db)
     if user is None:
         raise HTTPException(
@@ -292,12 +292,12 @@ async def reset_password(
     Raises:
     - HTTPException: If the token is invalid or expired, or if the user is not found.
     """
-    email = await auth_serviсe.get_email_from_token(token)
+    email = await auth_service.get_email_from_token(token)
     user = await repositories_users.get_user_by_email(email, db)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    new_hashed_password = auth_serviсe.get_password_hash(new_password)
+    new_hashed_password = auth_service.get_password_hash(new_password)
     await repositories_users.update_password(user, new_hashed_password, db)
     return JSONResponse(
         content={"message": "Password reset successful"}, status_code=200
@@ -309,7 +309,7 @@ async def set_cash(
     key: str,
     value: str,
     redis_client: Redis = Depends(get_redis_client),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Sets a key-value pair in the Redis cache.
@@ -333,7 +333,7 @@ async def set_cash(
 async def get_cash(
     key: str,
     redis_client: Redis = Depends(get_redis_client),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Retrieves the value associated with the given key from the Redis cache.

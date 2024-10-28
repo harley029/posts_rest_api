@@ -255,4 +255,4 @@ class Auth:
             )
 
 
-auth_serviсe = Auth()
+auth_service = Auth()

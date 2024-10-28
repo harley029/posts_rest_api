@@ -4,14 +4,14 @@ from src.database.db import get_db
 from src.entity.models import User
 from src.schemas.user import UserResponseSchema
 from src.schemas.user import UserDb
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.get("/me", response_model=UserResponseSchema)
-async def get_current_user(user: User = Depends(auth_serviсe.get_current_user)):
+async def get_current_user(user: User = Depends(auth_service.get_current_user)):
     """
     Retrieves the current authenticated user's information.
 
@@ -24,3 +24,4 @@ async def get_current_user(user: User = Depends(auth_serviсe.get_current_user))
     This endpoint is protected by a rate limiter that allows no more than 2 requests per 10 seconds.
     """
     return user
+

@@ -1,6 +1,6 @@
 import aiohttp
 
-from src.config.config import API_KEY, PERSPECTIVE_API_URL
+from src.config.config import API_KEY, RESPECTIVE_API_URL
 
 
 async def contains_profanity(text: str) -> bool:
@@ -34,7 +34,7 @@ async def contains_profanity(text: str) -> bool:
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                PERSPECTIVE_API_URL, params=params, json=data
+                RESPECTIVE_API_URL, params=params, json=data
             ) as response:
                 response_text = await response.text()
                 if response.status != 200:

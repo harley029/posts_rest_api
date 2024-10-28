@@ -1,5 +1,5 @@
 import enum
-from datetime import date
+from datetime import datetime
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Integer, String, Boolean, Text, ForeignKey, Enum, func, DateTime
@@ -15,8 +15,8 @@ class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[date] = mapped_column(DateTime, default=func.now(), nullable=True)
-    updated_at: Mapped[date] = mapped_column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now(), nullable=True)
 
     @declared_attr.directive
     def __tablename__(cls) -> str:
