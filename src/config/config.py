@@ -32,9 +32,11 @@ class Settings(BaseSettings):
     celery_backend:str
     google_reply_api_key:str
 
-    model_config = ConfigDict(
-        extra="ignore", env_file=".env", env_file_encoding="utf-8"
-    )
+    class Config:
+        extra = "ignore"
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
 
 settings = Settings()
 
