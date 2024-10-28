@@ -3,7 +3,7 @@ from fastapi_mail.errors import ConnectionErrors
 
 from pydantic import EmailStr
 
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 
 from src.config.config import conf
 
