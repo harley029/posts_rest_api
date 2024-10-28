@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database.db import get_db
 from src.repository import analitics as repository_posts
 from src.entity.models import User
-from src.services.auth import auth_serviсe
+from src.services.auth import auth_service
 
 
 router = APIRouter(prefix="/analitics", tags=["analitics"])
@@ -19,7 +19,7 @@ async def get_comments_daily_breakdown(
     date_from: datetime = Query(..., alias="date_from"),
     date_to: datetime = Query(..., alias="date_to"),
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(auth_serviсe.get_current_user),
+    user: User = Depends(auth_service.get_current_user),
 ):
     """
     Retrieve a daily breakdown of comment counts for posts within a specified period.
